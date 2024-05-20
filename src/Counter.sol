@@ -11,7 +11,7 @@ contract Counter {
     constructor() {
         lastUpdate = block.timestamp;
         periodSecs = 10;
-        owner = msg.sender;
+        owner = msg.sender; // set owner to contract deployer
     }
 
     // assert that sufficient time has passed between the last update timestamp and the current block timestamp
