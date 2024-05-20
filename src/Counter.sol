@@ -5,7 +5,7 @@ contract Counter {
     uint256 public periodSecs;
     uint256 public lastUpdate;
     uint256 public counter;
-    address owner;
+    address public owner;
 
     // init with default values
     constructor() {
