@@ -26,13 +26,21 @@ contract CounterTest is Test {
     }
 
     function test_Update() public {
+        assert(counter.getCounter() == 0);
+
         // skip ahead so that sufficient time has passed for an update
         skip(11);
         counter.update();
 
+        // check counter and lastUpdate were correctly updated
+        assert(counter.getCounter() == 1);
+        assert(counter.getLastUpdate() == block.timestamp);
+
         // fails, not enough time has passed
         vm.expectRevert();
         counter.update();
+
+        assert(counter.getCounter() == 1);
     }
 
     function test_UpdatePeriod() public {

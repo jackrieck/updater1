@@ -43,4 +43,12 @@ contract Counter {
         checkOwner();
         periodSecs = newPeriodSecs;
     }
+
+    function getCounter() public view returns (uint256) {
+        return counter;
+    }
+
+    function getLastUpdate() public view returns (uint256) {
+        return lastUpdate;
+    }
 }
