@@ -40,6 +40,7 @@ contract CounterTest is Test {
         vm.expectRevert();
         counter.update();
 
+        // check counter value did not change because of checkTime failure causing a revert
         assert(counter.getCounter() == 1);
     }
 
