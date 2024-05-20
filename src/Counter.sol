@@ -20,6 +20,11 @@ contract Counter {
         require(delta >= periodSecs);
     }
 
+    // will revert if caller is not contract owner
+    function checkOwner() public view {
+        require(msg.sender == owner);
+    }
+
     // if its been sufficiently long enough since the previous update, increment the counter by 1
     function update() external {
         // check time to make sure its been long enough
@@ -35,7 +40,7 @@ contract Counter {
     // change the periodSecs variable
     function updatePeriod(uint256 newPeriodSecs) external {
         // only allow the owner to change the period
-        require(msg.sender == owner);
+        checkOwner();
         periodSecs = newPeriodSecs;
     }
 }
