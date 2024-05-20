@@ -6,19 +6,42 @@ import {Counter} from "../src/Counter.sol";
 
 contract CounterTest is Test {
     Counter public counter;
+    address public user;
 
     function setUp() public {
         counter = new Counter();
-        counter.setNumber(0);
     }
 
-    function test_Increment() public {
-        counter.increment();
-        assertEq(counter.number(), 1);
+    // test the time checking function
+    function test_CheckTime() public {
+        // should fail
+        vm.expectRevert();
+        counter.checkTime();
+
+        // skip past the periodSec value of 10 seconds
+        skip(11);
+
+        // should pass
+        counter.checkTime();
     }
 
-    function testFuzz_SetNumber(uint256 x) public {
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
+    function test_Update() public {
+        // skip ahead so that sufficient time has passed for an update
+        skip(11);
+        counter.update();
+
+        // fails, not enough time has passed
+        vm.expectRevert();
+        counter.update();
+    }
+
+    function test_UpdatePeriod() public {
+        // will pass because the owner is calling it
+        counter.updatePeriod(100);
+
+        // fails to update because owner is required to update this field
+        vm.startPrank(user, user);
+        vm.expectRevert();
+        counter.updatePeriod(100);
     }
 }
